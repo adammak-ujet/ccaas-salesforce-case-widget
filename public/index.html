@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Case Widget</title>
+  <link rel="stylesheet" href="css/widget.css" />
+</head>
+<body>
+  <div id="app" class="widget">
+    <header class="widget-header">
+      <img class="logo logo--salesforce" src="assets/salesforce-logo.svg" alt="Salesforce" />
+      <img id="customerLogo" class="logo logo--customer" alt="" hidden />
+    </header>
+
+    <main class="widget-body">
+      <section id="caseListSection" class="panel" aria-labelledby="caseListHeading">
+        <div class="panel-head">
+          <h2 id="caseListHeading">Cases</h2>
+        </div>
+
+        <div id="casesLoading" class="state state--loading">Looking up cases…</div>
+        <div id="casesEmpty" class="state state--empty" hidden>No cases found for this contact.</div>
+        <div id="casesError" class="state state--error" hidden></div>
+
+        <ul id="casesList" class="case-list" hidden></ul>
+      </section>
+
+      <section id="caseSection" class="panel" aria-labelledby="caseHeading" hidden>
+        <div class="panel-head">
+          <div class="panel-head-left">
+            <button id="backToListBtn" type="button" class="icon-btn" hidden>← All Cases</button>
+            <h2 id="caseHeading">Case Details</h2>
+          </div>
+          <span id="caseStatusPill" class="pill" hidden></span>
+        </div>
+
+        <div id="caseError" class="state state--error" hidden></div>
+
+        <form id="caseForm" class="case-fields">
+          <div class="field field--readonly">
+            <label>Case Number</label>
+            <div id="fCaseNumber" class="field-value"></div>
+          </div>
+          <div class="field field--readonly">
+            <label>Contact Name</label>
+            <div id="fContactName" class="field-value"></div>
+          </div>
+          <div class="field">
+            <label for="fPriority">Priority</label>
+            <select id="fPriority" name="priority">
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fPhone">Contact Phone</label>
+            <input id="fPhone" name="phone" type="tel" />
+          </div>
+          <div class="field">
+            <label for="fEmail">Contact Email</label>
+            <input id="fEmail" name="email" type="email" />
+          </div>
+          <div class="field field--wide">
+            <label for="fDescription">Description</label>
+            <textarea id="fDescription" name="description" rows="4"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <span id="saveStatus" class="save-status"></span>
+            <button type="submit" id="saveBtn" disabled>Save Changes</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="activitySection" class="panel" aria-labelledby="activityHeading" hidden>
+        <div class="panel-head">
+          <h2 id="activityHeading">Case Activity</h2>
+          <button id="refreshBtn" type="button" class="icon-btn" title="Refresh" disabled>⟳ Refresh</button>
+        </div>
+
+        <div id="activityLoading" class="state state--loading" hidden>Loading activity…</div>
+        <div id="activityEmpty" class="state state--empty" hidden>No activity yet.</div>
+        <div id="activityError" class="state state--error" hidden></div>
+
+        <ul id="activityList" class="activity-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/widget.js"></script>
+</body>
+</html>

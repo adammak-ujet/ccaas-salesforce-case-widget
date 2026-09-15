@@ -1,0 +1,5 @@
+functions/node_modules/
+functions/.env
+*.pem
+*.key
+.DS_Store

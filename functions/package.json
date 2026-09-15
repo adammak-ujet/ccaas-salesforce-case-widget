@@ -1,0 +1,21 @@
+{
+  "name": "salesforce-case-widget-functions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev:listCases": "dotenv -e .env -- functions-framework --target=listCases --port=8081",
+    "dev:updateCase": "dotenv -e .env -- functions-framework --target=updateCase --port=8082",
+    "dev:getActivity": "dotenv -e .env -- functions-framework --target=getActivity --port=8083"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@google-cloud/functions-framework": "^3.4.2",
+    "dotenv-cli": "^7.4.2"
+  }
+}
