@@ -3,3 +3,4 @@ functions/.env
 *.pem
 *.key
 .DS_Store
+ARCHITECTURE.md
