@@ -14,15 +14,28 @@ exports.getActivity = async (req, res) => {
   }
   const id = soqlEscape(caseId);
 
+  // Each source is independently optional -- e.g. FeedItem/Chatter isn't
+  // enabled in every org (INVALID_TYPE, not a permissions error), and that
+  // shouldn't take down Task/EmailMessage just because they ran in the same
+  // Promise.all. Log and fall back to an empty list per source instead.
+  const safeQuery = (label, soql) =>
+    soqlQuery(soql).catch((err) => {
+      console.error(`${label} activity query failed, continuing without it:`, err.message);
+      return [];
+    });
+
   try {
     const [feedItems, tasks, emails] = await Promise.all([
-      soqlQuery(
+      safeQuery(
+        "FeedItem",
         `SELECT Id, Body, CreatedDate, CreatedBy.Name FROM FeedItem WHERE ParentId = '${id}' ORDER BY CreatedDate DESC LIMIT ${MAX_ITEMS}`
       ),
-      soqlQuery(
+      safeQuery(
+        "Task",
         `SELECT Id, Subject, Description, Status, CreatedDate, Who.Name FROM Task WHERE WhatId = '${id}' ORDER BY CreatedDate DESC LIMIT ${MAX_ITEMS}`
       ),
-      soqlQuery(
+      safeQuery(
+        "EmailMessage",
         `SELECT Id, Subject, TextBody, FromAddress, MessageDate FROM EmailMessage WHERE ParentId = '${id}' ORDER BY MessageDate DESC LIMIT ${MAX_ITEMS}`
       ),
     ]);
